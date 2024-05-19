@@ -10,7 +10,9 @@ import FooterLine from '../components/FooterLine'
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className='text-[#f1e8e8]' style={{
+      background: "linear-gradient(to bottom, #1a1a2e, #23236e)"
+    }}>
       <Header />
       <Hero />
       <GlobeDemo />

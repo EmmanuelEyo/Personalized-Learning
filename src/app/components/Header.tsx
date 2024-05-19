@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useRef, useEffect } from 'react'
-import { navbarLinks } from '@/constants'
+import { navbarLinks } from '@/constants';
 import { RiMenu3Fill } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
 import {
