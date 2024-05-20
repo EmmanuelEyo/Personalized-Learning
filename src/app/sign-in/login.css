@@ -1,0 +1,63 @@
+:root{
+    --mainBgColor:rgba(20,20,31,11);
+    --secondaryBgColor:rgba(27,27,39,1);
+    --borderColor1:rgba(40,41,57,1);
+    --borderColor2:rgba(79,86,105,1);
+    --textColorMain:#fff;
+    --textColorSecondary:rgb(226, 227, 232);
+    --themeColorMain:rgba(219,26,90,1);
+    --themeColorSecondary:#386fd2;
+}
+
+
+
+.auth--container{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .form--wrapper{
+    width: 600px;
+    width: 600px;
+    padding: 2em;
+  }
+  
+  .field--wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 0.5em 0;
+  }
+
+  input[type="text"], input[type="password"], input[type="email"], textarea{
+    background: var(--mainBgColor);
+    border: none;
+    border-bottom: 1px solid var(--borderColor1);
+    padding: 1rem;
+    border-radius: 3px;
+    width: 100%;
+    color: var(--color-light);
+    outline: none;
+    font-size: 18px;
+    text-shadow: none !important;
+  }
+
+  .btn{
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .btn--lg{
+    padding: 1em 2em;
+  }
+
+  .btn--main{
+    background-color: rgba(219,26,90,1);
+    color: #fff;
+  }
+  

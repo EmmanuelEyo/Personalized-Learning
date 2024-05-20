@@ -30,7 +30,8 @@ const Navbar = () => {
             <FaMoon className='h-6 w-6 text-gray-400' />
             <BsFillBellSlashFill className='h-6 w-6 text-gray-400' />
             <div className='bg-gray-700 h-8 w-8 rounded-full overflow-hidden'>
-                <Image src='/icon-profile.png' alt='Profile' className='h-full w-full object-cover' width={1} height={1} />
+                {/* <Image src='/icon-profile.png' alt='Profile' className='h-full w-full object-cover' width={1} height={1} /> */}
+                <p className='uppercase text-2xl ml-2.5 -mt-0.5'>e</p>
             </div>
         </div>
     </div>
