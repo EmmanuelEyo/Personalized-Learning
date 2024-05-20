@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { RootState } from '@/redux/store';
+import { RootState, useAppDispatch } from '@/redux/store';
 import { handleUserLogin } from '@/redux/authSlice'
 import './login.css'
+import Link from 'next/link'
 
 const Page = () => {
     const router = useRouter();
-    const dispatch = useDispatch<any>()
+    const dispatch = useAppDispatch()
     const user = useSelector((state: RootState) => state.auth.user)
     const [credentials, setCredentials] = useState({
         email: '',
@@ -51,6 +52,8 @@ const Page = () => {
                     <input type='submit' value='Login' className='btn btn-lg btn--main' />
                 </div>
             </form>
+
+            <p>Don&apos;t have an account? Register <Link className='text-blue-500' href='/sign-up'>here</Link></p>
         </div>
     </div>
   )

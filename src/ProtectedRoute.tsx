@@ -8,14 +8,15 @@ const ProtectedRoute = (WrappedComponent: React.ComponentType) => {
     const ComponentwithAuth = (props: any) => {
         const router = useRouter();
         const user = useSelector((state: RootState) => state.auth.user)
+        const loading = useSelector((state: RootState) => state.auth.loading)
     
         useEffect(() => {
-            if(!user) {
+            if(!loading && !user) {
                 router.push('/sign-in')
             }
-        }, [user, router])
+        }, [user, loading, router])
     
-        if(!user) {
+        if(loading) {
             return( 
                 <div className="fixed inset-0 flex items-center justify-center bg-surface">
                 <div className="h-16 w-16 animate-spin rounded-full border-8 border-solid border-current border-e-transparent text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" role="status">

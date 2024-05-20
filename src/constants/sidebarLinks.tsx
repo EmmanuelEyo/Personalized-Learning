@@ -1,6 +1,6 @@
 import { MdContactSupport, MdDashboard } from 'react-icons/md';
 import { IoMdSettings } from 'react-icons/io';
-import { LuLogOut } from 'react-icons/lu';
+// import { LuLogOut } from 'react-icons/lu';
 import { GiProgression } from 'react-icons/gi';
 import { RiCommunityFill } from 'react-icons/ri';
 import { SiTask } from 'react-icons/si';
@@ -22,7 +22,7 @@ export const SidebarLinks: Link[] = [
         links: [
             {
                 name: 'overview',
-                route: '/overview',
+                route: '/personalized-dashboard',
                 icon: <MdDashboard />
             }
         ]
@@ -60,11 +60,11 @@ export const SidebarLinks: Link[] = [
                 route: '/support',
                 icon: <MdContactSupport />,
             },
-            {
-                name: 'logout',
-                route: '/logout',
-                icon: <LuLogOut />,
-            },
+            // {
+            //     name: 'logout',
+            //     route: '/logout',
+            //     icon: <LuLogOut />,
+            // },
         ]
     },
 ]

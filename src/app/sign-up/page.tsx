@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
 import { cn } from "@/lib/utils";
@@ -9,12 +9,32 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 import Image from "next/image";
+import { handleUserRegister } from "@/redux/authSlice";
+import { useAppDispatch } from "@/redux/store";
+import { useRouter } from 'next/navigation'
 
 export default function Page() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Form submitted");
-  };
+  const router = useRouter();
+  const dispatch = useAppDispatch()
+  const [credentials, setCredentials] = useState({
+    name: '',
+    email: '',
+    password1: '',
+    password2: '',
+  })
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let name = e.target.name
+    let value = e.target.value
+
+    setCredentials({ ...credentials, [name]: value})
+  }
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    dispatch(handleUserRegister(credentials, router))
+  }
+
   return (
     <div className="flex flex-col md:flex-row w-full h-screen">
       <div className="flex-1 flex flex-col justify-center max-w-full p-8 bg-black">
@@ -25,11 +45,11 @@ export default function Page() {
           Sign Up to experience an endless world of Personalized Learning!
         </p>
 
-        <form className="my-8" onSubmit={handleSubmit}>
+        <form className="my-8" onSubmit={handleFormSubmit}>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
             <LabelInputContainer>
               <Label htmlFor="firstname" className="text-white">First name</Label>
-              <Input id="firstname" className="rounded bg-zinc-800" placeholder="John" type="text" />
+              <Input id="firstname" name="name" value={credentials.name} onChange={handleInputChange} className="rounded bg-zinc-800" placeholder="John" type="text" />
             </LabelInputContainer>
             <LabelInputContainer>
               <Label className="text-white" htmlFor="lastname">Last name</Label>
@@ -38,15 +58,15 @@ export default function Page() {
           </div>
           <LabelInputContainer className="mb-4">
             <Label className="text-white" htmlFor="email">Email Address</Label>
-            <Input id="email" className="rounded bg-zinc-800" placeholder="johndoe@gmail.com" type="email" />
+            <Input id="email" name="email" value={credentials.email} onChange={handleInputChange} className="rounded bg-zinc-800" placeholder="johndoe@gmail.com" type="email" />
           </LabelInputContainer>
           <LabelInputContainer className="mb-4">
             <Label className="text-white" htmlFor="password">Password</Label>
-            <Input id="password" className="rounded bg-zinc-800" placeholder="••••••••" type="password" />
+            <Input id="password" name="password1" value={credentials.password1} onChange={handleInputChange} className="rounded bg-zinc-800" placeholder="••••••••" type="password" />
           </LabelInputContainer>
           <LabelInputContainer className="mb-8">
             <Label className="text-white" htmlFor="confirmpassword">Confirm your password</Label>
-            <Input id="confirmpassword" placeholder="••••••••" type="password" className="rounded bg-zinc-800" />
+            <Input id="confirmpassword" value={credentials.password2} onChange={handleInputChange} name="password2" placeholder="••••••••" type="password" className="rounded bg-zinc-800" />
           </LabelInputContainer>
 
           <button

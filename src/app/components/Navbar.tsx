@@ -4,8 +4,12 @@ import { FaMoon } from "react-icons/fa6";
 import { BsFillBellSlashFill } from "react-icons/bs";
 import { PlaceholdersAndVanishInput } from './ui/placeholders-and-vanish-input';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const Navbar = () => {
+    const user = useSelector((state: RootState) => state.auth.user)
+
     const placeholders = [
         "What's the first rule of Fight Club?",
         "Who is Tyler Durden?",
@@ -31,7 +35,7 @@ const Navbar = () => {
             <BsFillBellSlashFill className='h-6 w-6 text-gray-400' />
             <div className='bg-gray-700 h-8 w-8 rounded-full overflow-hidden'>
                 {/* <Image src='/icon-profile.png' alt='Profile' className='h-full w-full object-cover' width={1} height={1} /> */}
-                <p className='uppercase text-2xl ml-2.5 -mt-0.5'>e</p>
+                <p className='uppercase text-2xl ml-2 -mt-0.3'>{user.name[0]}</p>
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ interface State {
     userProfile: boolean
     notification: boolean
     activeMenu: boolean
+    collapsed: boolean
 }
 
 const initialState: State = {
@@ -13,6 +14,7 @@ const initialState: State = {
     userProfile: false,
     notification: false,
     activeMenu: true,
+    collapsed: false,
 }
 
 const appReducer = createSlice({
@@ -21,9 +23,12 @@ const appReducer = createSlice({
     reducers: {
         setActiveMenu(state, action: PayloadAction<boolean>) {
             state.activeMenu = action.payload
+        },
+        setCollapsed(state) {
+            state.collapsed = !state.collapsed
         }
     }
 })
 
-export const { setActiveMenu } = appReducer.actions
+export const { setActiveMenu, setCollapsed } = appReducer.actions
 export default appReducer.reducer
