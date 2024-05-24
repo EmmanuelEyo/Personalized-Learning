@@ -1,12 +1,20 @@
-import React from 'react'
+import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
+import {
+    Chart as ChartJS,
+    LineElement,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    Legend
+} from 'chart.js';
 
 ChartJS.register(
     LineElement,
     CategoryScale,
     LinearScale,
     PointElement,
+    Legend
 );
 
 const Chart = () => {
@@ -21,10 +29,13 @@ const Chart = () => {
             pointBorderWidth: 4,
             tension: 0.5
         }]
-    }
+    };
+
     const options = {
         plugins: {
-            legend: false
+            legend: {
+                display: false // Corrected: Legend is an object
+            }
         },
         scales: {
             x: {
@@ -44,15 +55,16 @@ const Chart = () => {
                 }
             }
         }
-    }
-  return (
-    <div>
-        <Line data={data} options={options}></Line>
-    </div>
-  )
-}
+    };
 
-export default Chart
+    return (
+        <div>
+            <Line data={data} options={options}></Line>
+        </div>
+    );
+};
+
+export default Chart;
 
 
 
