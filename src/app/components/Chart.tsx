@@ -48,7 +48,7 @@ const Chart = () => {
                 max: 10,
                 ticks: {
                     stepSize: 2,
-                    callback: (value: number) => value + 'K'
+                    callback: (value: string | number) => `${value}K` // Corrected: Type of value should be string | number
                 },
                 grid: {
                     display: false
@@ -65,6 +65,7 @@ const Chart = () => {
 };
 
 export default Chart;
+
 
 
 
