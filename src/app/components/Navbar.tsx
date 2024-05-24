@@ -26,7 +26,7 @@ const Navbar = () => {
     };
   return (
     <div className='flex items-center justify-between bg-gray-800 text-gray-300 h-16 px-4 shadow-md'>
-        <div className='flex items-center space-x-4 mx-52'>
+        <div className='flex items-center z-10 space-x-4 mx-52'>
             {/* <IoSearchOutline className='h-6 w-6 text-gray-400' /> */}
             <PlaceholdersAndVanishInput  onChange={handleChange} onSubmit={onSubmit} placeholders={placeholders}  />
         </div>
