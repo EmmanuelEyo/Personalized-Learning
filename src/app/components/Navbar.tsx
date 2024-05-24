@@ -26,8 +26,8 @@ const Navbar = () => {
     };
   return (
     <div className='flex items-center justify-between bg-gray-800 text-gray-300 h-16 px-4 shadow-md'>
-        <div className='flex items-center space-x-4'>
-            <IoSearchOutline className='h-6 w-6 text-gray-400' />
+        <div className='flex items-center space-x-4 mx-52'>
+            {/* <IoSearchOutline className='h-6 w-6 text-gray-400' /> */}
             <PlaceholdersAndVanishInput  onChange={handleChange} onSubmit={onSubmit} placeholders={placeholders}  />
         </div>
         <div className='flex items-center space-x-6'>
@@ -35,7 +35,11 @@ const Navbar = () => {
             <BsFillBellSlashFill className='h-6 w-6 text-gray-400' />
             <div className='bg-gray-700 h-8 w-8 rounded-full overflow-hidden'>
                 {/* <Image src='/icon-profile.png' alt='Profile' className='h-full w-full object-cover' width={1} height={1} /> */}
-                <p className='uppercase text-2xl ml-2 -mt-0.3'>{user.name[0]}</p>
+                {user && user.name ? (
+                    <p className='uppercase text-2xl ml-2 -mt-0.3'>{user.name[0]}</p>
+                ) : (
+                    <p className='uppercase text-2xl ml-2 -mt-0.3'>?</p>
+                )}
             </div>
         </div>
     </div>

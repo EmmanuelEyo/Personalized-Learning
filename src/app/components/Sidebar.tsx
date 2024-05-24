@@ -24,7 +24,7 @@ const SideBar = () => {
 
 
   return (
-    <div className={`bg-gray-900 h-screen ${collapsed ? 'w-16' : 'w-64'} text-gray-300 flex flex-col overflow-auto scrollbar-hide transition-all duration-300`}>
+    <div className={`bg-gray-900 h-screen fixed ${collapsed ? 'w-16' : 'w-64'} text-gray-300 flex flex-col z-50 overflow-auto scrollbar-hide transition-all duration-300`}>
         <div className={`${collapsed ? 'flex-col' : 'flex justify-center gap-6'}`}>
             <Link href='/'>
                 <div className='flex items-center justify-center space-x-3 h-20 border-b border-gray-800'>

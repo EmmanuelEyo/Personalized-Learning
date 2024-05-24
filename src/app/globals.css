@@ -20,10 +20,27 @@ body {
   /* background: linear-gradient(to bottom, #1a1a2e, #23236e); */
   color: #f1e8e8;
 }
-/* body{
-  background-color: blue;
-} */
-/* styles/globals.css */
+
+.fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+
 .transition-all {
   transition: all 0.3s ease-in-out;
 }
@@ -70,3 +87,21 @@ body {
     text-wrap: balance;
   }
 }
+
+/* custom-datepicker.css */
+.react-datepicker {
+  @apply bg-white border border-gray-300 rounded-md shadow-lg;
+}
+
+.react-datepicker__header {
+  @apply bg-gray-100;
+}
+
+.react-datepicker__day {
+  @apply hover:bg-gray-200;
+}
+
+.react-datepicker__day--selected {
+  @apply bg-blue-500 text-white;
+}
+

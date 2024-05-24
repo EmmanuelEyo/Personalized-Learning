@@ -8,7 +8,7 @@ import Link from 'next/link';
 const HeaderHero = () => {
     const user = useSelector((state: RootState) => state.auth.user)
   return (
-    <div className='flex bg-transparent justify-between py-10 px-4 sm:px'>
+    <div className='flex bg-transparent justify-between py-10 px-4 mx-24 sm:px'>
         <div>
             {user ? (
                 <>
