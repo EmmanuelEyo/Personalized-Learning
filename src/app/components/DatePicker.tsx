@@ -23,7 +23,7 @@ const CustomDatePicker: React.FC = () => {
       selected={startDate}
       onChange={handleChange}
       dateFormat="yyyy/MM/dd"
-      className="border rounded p-2 text-gray-700"
+      className="rounded bg-slate-700 p-2 focus:outline-none text-gray-700"
     />
   );
 };

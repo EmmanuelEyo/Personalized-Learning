@@ -1,14 +1,13 @@
-import React from 'react'
+import React from 'react';
 import { IoSearchOutline } from "react-icons/io5";
 import { FaMoon } from "react-icons/fa6";
 import { BsFillBellSlashFill } from "react-icons/bs";
 import { PlaceholdersAndVanishInput } from './ui/placeholders-and-vanish-input';
-import Image from 'next/image';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
 const Navbar = () => {
-    const user = useSelector((state: RootState) => state.auth.user)
+    const user = useSelector((state: RootState) => state.auth.user);
 
     const placeholders = [
         "What's the first rule of Fight Club?",
@@ -17,33 +16,38 @@ const Navbar = () => {
         "Write a Javascript method to reverse a string",
         "How to assemble your own PC?",
     ];
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.value);
     };
+
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("submitted");
     };
-  return (
-    <div className='flex items-center justify-between bg-gray-800 text-gray-300 h-16 px-4 shadow-md'>
-        <div className='flex items-center z-10 space-x-4 mx-52'>
-            {/* <IoSearchOutline className='h-6 w-6 text-gray-400' /> */}
-            <PlaceholdersAndVanishInput  onChange={handleChange} onSubmit={onSubmit} placeholders={placeholders}  />
-        </div>
-        <div className='flex items-center space-x-6'>
-            <FaMoon className='h-6 w-6 text-gray-400' />
-            <BsFillBellSlashFill className='h-6 w-6 text-gray-400' />
-            <div className='bg-gray-700 h-8 w-8 rounded-full overflow-hidden'>
-                {/* <Image src='/icon-profile.png' alt='Profile' className='h-full w-full object-cover' width={1} height={1} /> */}
-                {user && user.name ? (
-                    <p className='uppercase text-2xl ml-2 -mt-0.3'>{user.name[0]}</p>
-                ) : (
-                    <p className='uppercase text-2xl ml-2 -mt-0.3'>?</p>
-                )}
+
+    return (
+        <div className='bg-gray-800 text-gray-300 shadow-md w-full fixed top-0 left-0'>
+            <div className='flex items-center justify-between h-16 px-4 lg:px-8 max-w-screen-xl mx-auto'>
+                <div className='flex items-center space-x-4 mx-20 md:mx-32'>
+                    <PlaceholdersAndVanishInput onChange={handleChange} onSubmit={onSubmit} placeholders={placeholders} />
+                </div>
+                <div className='flex items-center space-x-4 md:space-x-6'>
+                    <FaMoon className='h-6 w-6 text-gray-400 hidden md:block' />
+                    <BsFillBellSlashFill className='h-6 w-6 text-gray-400 hidden md:block' />
+                    <div className='bg-gray-700 h-8 w-8 rounded-full overflow-hidden flex items-center justify-center'>
+                        {user && user.name ? (
+                            <p className='uppercase text-2xl'>{user.name[0]}</p>
+                        ) : (
+                            <p className='uppercase text-2xl'>?</p>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-  )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;
+
+

@@ -10,13 +10,18 @@ import {
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import DatePicker from './DatePicker';
 import PrioritySelector from './PrioritySelector';
+import MilestoneForm from './MilestoneForm';
+import UrlForm from './UrlForm';
+import NotificationSettings from './NotificationSettings';
 
 const GoalCardForm = () => {
     const [step, setStep] = useState(1);
     const [isPending, startTransition] = useTransition();
     const [isOpen, setIsOpen] = useState(false)
     const [activeTab, setActiveTab] = useState<string>('Description')
-    const [description, setDescription] = useState<string>('Design the home screen UI layout')
+    const [description, setDescription] = useState<string>('')
+    const [comment, setComment] = useState<string>('')
+    const [activity, setActivity] = useState<string>('')
     const [category, setCategory] = useState('')
     const [customCategory, setCustomCategory] = useState('')
 
@@ -30,7 +35,15 @@ const GoalCardForm = () => {
     }
 
     const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setDescription(e.target.innerText)
+        setDescription(e.target.value)
+    }
+
+    const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setComment(e.target.value)
+    }
+
+    const handleActivityChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setActivity(e.target.value)
     }
 
     const nextStep = () => {
@@ -54,12 +67,12 @@ const GoalCardForm = () => {
         switch (activeTab) {
             case 'Description':
                 return(
-                    <textarea onInput={handleDescriptionChange} placeholder={description} suppressContentEditableWarning={true} className='p-4 outline-none text-gray-300 bg-gray-800 rounded-xl w-[110%] h-28' />
+                    <textarea onInput={handleDescriptionChange} value={description} placeholder="Design the home screen UI layout" suppressContentEditableWarning={true} className='p-4 outline-none text-gray-300 bg-gray-800 rounded-xl w-[110%] h-28' />
                 )
             case 'Comments':
-                return <textarea onInput={handleDescriptionChange} placeholder='Comments Are Optional' suppressContentEditableWarning={true} className='p-4 outline-none text-gray-300 bg-gray-800 rounded-xl w-[110%] h-28' />
+                return <textarea onInput={handleCommentChange} value={comment} placeholder="Comments Are Optional..." suppressContentEditableWarning={true} className='p-4 outline-none text-gray-300 bg-gray-800 rounded-xl w-[110%] h-28' />
             case 'Activities':
-                return <textarea onInput={handleDescriptionChange} placeholder='Enter your Activities right here' suppressContentEditableWarning={true} className='p-4 outline-none text-gray-300 bg-gray-800 rounded-xl w-[110%] h-28' />
+                return <textarea onInput={handleActivityChange} value={activity} placeholder="Activities are also Optional..." suppressContentEditableWarning={true} className='p-4 outline-none text-gray-300 bg-gray-800 rounded-xl w-[110%] h-28' />
             default:
                 return null
         }
@@ -74,9 +87,9 @@ const GoalCardForm = () => {
             </SheetTrigger>
             <SheetContent className="max-w-lg p-6">
                 <SheetHeader>
-                    <SheetTitle>{step === 1 ? "Step 1: Goal Details" : step === 2 ? "Step 2: Goal Category" : "Step 3: Confirmation"}</SheetTitle>
+                    <SheetTitle>{step === 1 ? "Step 1: Goal Details" : step === 2 ? "Step 2: Goal Category" :  step === 3 ? 'Step 3: Your Milestone' : 'Step 4: Add Resources'}</SheetTitle>
                     <SheetDescription>
-                        {step === 1 ? "Provide the basic details of your goal." : step === 2 ? "Provide the catogory your goal fall under." : "Review and confirm your goal."}
+                        {step === 1 ? "Provide the basic details of your goal." : step === 2 ? "Provide the catogory your goal fall under." : step === 3 ? 'Review and confirm your goal.' : 'Add URLs and upload files related to your goal.'}
                     </SheetDescription>
                 </SheetHeader>
                 <TransitionGroup>
@@ -187,10 +200,26 @@ const GoalCardForm = () => {
                             )}
                             {step === 3 && (
                                 <div className="mt-4">
-                                    <h2 className="text-lg font-bold mb-2">Confirm Your Goal</h2>
-                                    <p className="text-gray-700 mb-4">Review the details of your goal and confirm to save it.</p>
-                                    {/* Add more review details here as needed */}
+                                    <MilestoneForm />
+                                    {/* <h2 className="text-lg font-bold mb-2">Confirm Your Goal</h2>
+                                    <p className="text-gray-700 mb-4">Review the details of your goal and confirm to save it.</p> */}
                                     <div className="mt-4 flex justify-between">
+                                        <button
+                                            type="button"
+                                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                                            onClick={prevStep}
+                                        >
+                                            Back
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+                                            onClick={nextStep}
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                    {/* <div className="mt-4 flex justify-between">
                                         <button
                                             type="button"
                                             className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
@@ -204,6 +233,28 @@ const GoalCardForm = () => {
                                             onClick={handleSumbit}
                                         >
                                             Confirm
+                                        </button>
+                                    </div> */}
+                                </div>
+                            )}
+                            {step === 4 && (
+                                <div className='mt-5'>
+                                    <UrlForm />
+                                    <NotificationSettings />
+                                    <div className="mt-4 flex justify-between">
+                                        <button
+                                            type="button"
+                                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                                            onClick={prevStep}
+                                        >
+                                            Back
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+                                            onClick={nextStep}
+                                        >
+                                            Next
                                         </button>
                                     </div>
                                 </div>

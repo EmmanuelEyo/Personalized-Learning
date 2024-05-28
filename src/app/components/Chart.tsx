@@ -34,7 +34,7 @@ const Chart = () => {
     const options = {
         plugins: {
             legend: {
-                display: false // Corrected: Legend is an object
+                display: false
             }
         },
         scales: {
@@ -48,23 +48,29 @@ const Chart = () => {
                 max: 10,
                 ticks: {
                     stepSize: 2,
-                    callback: (value: string | number) => `${value}K` // Corrected: Type of value should be string | number
+                    callback: (value: string | number) => `${value}K`
                 },
                 grid: {
                     display: false
                 }
             }
-        }
+        },
+        maintainAspectRatio: false,
+        responsive: true,
     };
 
     return (
-        <div>
+        <div className="chart-container w-full h-64 md:h-full">
             <Line data={data} options={options}></Line>
         </div>
     );
 };
 
 export default Chart;
+
+
+
+
 
 
 

@@ -1,25 +1,24 @@
-// components/CourseProgress.tsx
 import React from 'react';
-import {CircularProgress} from "@nextui-org/progress";
+import { CircularProgress } from "@nextui-org/progress";
 import { IoIosRocket } from "react-icons/io";
 
 const CourseProgressOverview = () => {
   return (
-    <div className="bg-slate-900 p-6 rounded-2xl h-full shadow-md max-w-xl mr-10">
+    <div className="bg-slate-900 p-6 rounded-2xl h-full shadow-md w-full max-w-full">
       <div className='flex justify-between'>
         <div className="flex space-x-6">
-          <div className="bg-blue-900 rounded-full w-12 h-12">
-            <IoIosRocket className='ml-2 mt-2' size={30} />
+          <div className="bg-blue-900 rounded-full md:w-12 md:h-12 h-8 w-8 flex items-center justify-center">
+            <IoIosRocket className='w-5 h-5 md:w-8 md:h-8 text-white' />
           </div>
-          <h1 className='mt-3 font-semibold text-xl text-blue-400'>Course Progress</h1>
+          <h1 className='mt-3 font-semibold md:text-xl text-base text-blue-400'>Course Progress</h1>
         </div>
-        <button className='text-xl font-bold border-b-1 border-b-gray-300'>See All</button>
+        <button className='md:text-xl text-base font-bold border-b-1 border-b-gray-300'>See All</button>
       </div>
-      <div className='flex gap-10 mt-10'>
-        <div className='flex-col space-y-8 justify-center items-center'>
+      <div className='flex flex-col md:flex-row gap-10 mt-5'>
+        <div className='flex flex-col items-center'>
           <CircularProgress
               classNames={{
-                  svg: "w-36 h-36 drop-shadow-md",
+                  svg: "lg:w-36 lg:h-36 h-24 w-24 drop-shadow-md",
                   indicator: "stroke-purple-500",
                   track: "stroke-purple-500/10",
                   value: "text-3xl font-semibold text-white",
@@ -28,12 +27,12 @@ const CourseProgressOverview = () => {
               strokeWidth={2}
               showValueLabel={true}
           />
-          <h1 className='ml-2 font-semibold text-lg'>Design Leadership</h1>
+          <h1 className='mt-2 font-semibold text-base lg:text-lg'>Design Leadership</h1>
         </div>
-        <div className='flex-col space-y-8 justify-center items-center'>
+        <div className='flex flex-col items-center'>
             <CircularProgress
             classNames={{
-                svg: "w-36 h-36 drop-shadow-md",
+                svg: "lg:w-36 lg:h-36 h-24 w-24 drop-shadow-md",
                 indicator: "stroke-blue-500",
                 track: "stroke-blue-500/10",
                 value: "text-3xl font-semibold text-white",
@@ -42,9 +41,9 @@ const CourseProgressOverview = () => {
             strokeWidth={2}
             showValueLabel={true}
             />
-            <h1 className='ml-4 font-semibold text-lg'>UI/UX Design</h1>
+            <h1 className='mt-2 font-semibold text-base lg:text-lg'>UI/UX Design</h1>
         </div>
-        <div className='flex-col space-y-10 -mt-5'>
+        <div className='flex flex-col items-center md:items-start'>
           <div>
             <p className='text-gray-600'>Hours Spent</p>
             <h1 className='text-4xl font-bold'>214</h1>
@@ -64,6 +63,8 @@ const CourseProgressOverview = () => {
 };
 
 export default CourseProgressOverview;
+
+
 
 
 
