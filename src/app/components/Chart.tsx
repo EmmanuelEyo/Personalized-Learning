@@ -60,8 +60,8 @@ const Chart = () => {
     };
 
     return (
-        <div className="chart-container w-full h-64 md:h-full">
-            <Line data={data} options={options}></Line>
+        <div className="w-full h-full">
+            <Line data={data} options={options} />
         </div>
     );
 };

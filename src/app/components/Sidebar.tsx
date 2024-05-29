@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { SidebarLinks } from '@/constants/sidebarLinks';
 import { FaLock } from "react-icons/fa";
@@ -14,6 +14,7 @@ import Modal from './Modal';
 const SideBar = () => {
     const dispatch = useDispatch();
     const collapsed = useSelector((state: RootState) => state.app.collapsed);
+    const sidebarRef = useRef<HTMLDivElement>(null)
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -25,8 +26,26 @@ const SideBar = () => {
         dispatch(setCollapsed());
     };
 
+    const handleClickOutside = (e: MouseEvent) => {
+        if(sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
+            dispatch(setCollapsed())
+        }
+    }
+
+    useEffect(() => {
+        if(!collapsed) {
+            document.addEventListener('mousedown', handleClickOutside)
+        } else{
+            document.addEventListener('mousedown', handleClickOutside)
+        }
+
+        return () => {
+            document.addEventListener('mousedown', handleClickOutside)
+        }
+    })
+
     return (
-        <div>
+        <div ref={sidebarRef}>
             {collapsed && (
                 <button 
                     onClick={handleCollapse} 
@@ -35,11 +54,11 @@ const SideBar = () => {
                     <BsArrowsCollapseVertical size={24} />
                 </button>
             )}
-            <div className={`h-screen fixed ${collapsed ? 'w-0' : 'w-64'} ${collapsed ? 'overflow-hidden' : 'bg-gray-900'} text-gray-300 flex flex-col z-40 transition-all duration-300`}>
-                <div className={`flex ${collapsed ? 'hidden' : 'justify-between'} items-center h-20 border-b border-gray-800`}>
+            <div className={`fixed top-0 left-0 h-screen ${collapsed ? 'w-0' : 'w-64'} bg-gray-900 text-gray-300 flex flex-col z-40 transition-width duration-300`}>
+                <div className={`flex ${collapsed ? 'hidden' : 'justify-between'} items-center h-20 border-b border-gray-800 p-4`}>
                     <Link href='/'>
-                        <div className='flex items-center justify-center space-x-3'>
-                            <SiThealgorithms className={collapsed ? 'hidden' : ''} size={collapsed ? 24 : 20} />
+                        <div className='flex items-center space-x-3'>
+                            <SiThealgorithms className={collapsed ? 'hidden' : ''} size={20} />
                             {!collapsed && <h1 className='text-xl'>Learn.ai</h1>}
                         </div>
                     </Link>
@@ -51,7 +70,7 @@ const SideBar = () => {
                 </div>
                 {!collapsed && (
                     <>
-                        <nav className='flex-1'>
+                        <nav className='flex-1 overflow-y-auto'>
                             {SidebarLinks.map((item, index) => (
                                 <div key={index} className='p-4'>
                                     <h2 className='text-gray-400 uppercase text-sm'>{item.title}</h2>

@@ -27,7 +27,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className='bg-gray-800 text-gray-300 shadow-md w-full fixed top-0 left-0'>
+        <div className='bg-gray-800 text-gray-300 shadow-md w-full z-10 fixed top-0 left-0'>
             <div className='flex items-center justify-between h-16 px-4 lg:px-8 max-w-screen-xl mx-auto'>
                 <div className='flex items-center space-x-4 mx-20 md:mx-32'>
                     <PlaceholdersAndVanishInput onChange={handleChange} onSubmit={onSubmit} placeholders={placeholders} />

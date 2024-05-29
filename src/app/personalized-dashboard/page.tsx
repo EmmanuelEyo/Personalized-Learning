@@ -11,24 +11,22 @@ import { WobbleCardDemo } from "../components/WobbleCardDemo";
 
 const Page = () => {
   return (
-    <div className="flex bg-slate-950 min-h-screen">
+    <div className="flex bg-slate-950 min-h-screen justify-center">
       <SideBar />
-      <div className="flex-1 flex flex-col">
+      <div>
         <Navbar />
-        <main className="p-4 md:p-6 flex-1 flex flex-col space-y-4">
-          <HeaderHero />
-          <div className="flex flex-col lg:flex-row md:space-x-4 space-y-4 contain md:space-y-0">
-            <div className="bg-slate-900 rounded-2xl p-6 flex-1 w-full max-w-full overflow-hidden">
-              <Chart />
-            </div>
-            <div className="flex-1 max-w-full">
-              <CourseProgressOverview />
-            </div>
+        <HeaderHero />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl w-full">
+          <div className="md:col-span-2 bg-slate-900 p-6 md:p-10 rounded-xl">
+            <Chart />
           </div>
-          <div className="mt-4">
-            <WobbleCardDemo />
+          <div className="col-span-1 bg-slate-900 p-6 md:p-10 rounded-xl shadow-md">
+            <CourseProgressOverview />
           </div>
-        </main>
+        </div>
+        <div className="mt-5">
+          <WobbleCardDemo />
+        </div>
       </div>
     </div>
   );
