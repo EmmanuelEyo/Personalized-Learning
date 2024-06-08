@@ -5,12 +5,23 @@ import { ID } from "appwrite";
 // import { useRouter } from "next/navigation";
 // import { useEffect } from "react";
 
+interface UserProfile {
+    interests: string[];
+    skillLevel: string;
+    learningGoals: string;
+    learningMethods: string[];
+    timeCommitment: number;
+    additionalInfo?: string;
+}
+
 interface AuthState {
+    userProfile: UserProfile | null;
     user: any | null
     loading: boolean
 }
 
 const initialState: AuthState = {
+    userProfile: null,
     user: null,
     loading: true
 }
@@ -19,6 +30,9 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        setUserProfile(state, action: PayloadAction<UserProfile>) {
+            state.userProfile = action.payload;
+        },
         setUser(state, action: PayloadAction<any>) {
             state.user = action.payload
             state.loading = false
@@ -29,7 +43,7 @@ const authSlice = createSlice({
     }
 })
 
-export const { setUser, setLoading } = authSlice.actions
+export const { setUser, setLoading, setUserProfile } = authSlice.actions
 
 export const handleUserLogin = (credentials: { email: string; password: string }, router: any): AppThunk => async (dispatch) => {
     try {
@@ -88,7 +102,7 @@ export const handleUserRegister = (credentials: { email: string; password1: stri
         const accountDetails = await account.get();
         console.log('AccountDetails:', accountDetails)
         dispatch(setUser(accountDetails))
-        router.push('/personalized-dashboard')
+        router.push('/survey')
     }catch(err) {
         console.error(err)
     }

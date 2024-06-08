@@ -14,7 +14,7 @@ import Modal from './Modal';
 const SideBar = () => {
     const dispatch = useDispatch();
     const collapsed = useSelector((state: RootState) => state.app.collapsed);
-    const sidebarRef = useRef<HTMLDivElement>(null)
+    const sidebarRef = useRef<HTMLDivElement>(null);
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -26,23 +26,23 @@ const SideBar = () => {
         dispatch(setCollapsed());
     };
 
-    const handleClickOutside = (e: MouseEvent) => {
-        if(sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
-            dispatch(setCollapsed())
-        }
-    }
-
     useEffect(() => {
-        if(!collapsed) {
-            document.addEventListener('mousedown', handleClickOutside)
-        } else{
-            document.addEventListener('mousedown', handleClickOutside)
+        const handleClickOutside = (e: MouseEvent) => {
+            if (sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
+                dispatch(setCollapsed());
+            }
+        };
+
+        if (!collapsed) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
         }
 
         return () => {
-            document.addEventListener('mousedown', handleClickOutside)
-        }
-    })
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [collapsed, dispatch]);
 
     return (
         <div ref={sidebarRef}>
@@ -113,3 +113,4 @@ const SideBar = () => {
 };
 
 export default SideBar;
+

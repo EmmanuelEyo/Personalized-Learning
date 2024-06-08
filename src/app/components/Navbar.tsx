@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { IoSearchOutline } from "react-icons/io5";
 import { FaMoon } from "react-icons/fa6";

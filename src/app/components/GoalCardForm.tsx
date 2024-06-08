@@ -13,6 +13,11 @@ import PrioritySelector from './PrioritySelector';
 import MilestoneForm from './MilestoneForm';
 import UrlForm from './UrlForm';
 import NotificationSettings from './NotificationSettings';
+import { account, databases } from '@/appwriteConfig';
+import { ID } from 'appwrite'
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '@/redux/store';
+import { useRouter } from 'next/navigation';
 
 const GoalCardForm = () => {
     const [step, setStep] = useState(1);
@@ -20,10 +25,19 @@ const GoalCardForm = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [activeTab, setActiveTab] = useState<string>('Description')
     const [description, setDescription] = useState<string>('')
+    const [title, setTitle] = useState<string>('')
     const [comment, setComment] = useState<string>('')
     const [activity, setActivity] = useState<string>('')
     const [category, setCategory] = useState('')
     const [customCategory, setCustomCategory] = useState('')
+
+    const priority = useSelector((state: RootState) => state.app.level);
+    const milestones = useSelector((state: RootState) => state.app.milestones);
+    const url = useSelector((state: RootState) => state.app.urls);
+    const notifications = useSelector((state: RootState) => state.app.notifications);
+    const selectedDate = useSelector((state: RootState) => state.app.selectedDate);
+    const router = useRouter()
+
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedCategory = e.target.value
@@ -36,6 +50,10 @@ const GoalCardForm = () => {
 
     const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(e.target.value)
+    }
+
+    const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.target.value)
     }
 
     const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -59,9 +77,67 @@ const GoalCardForm = () => {
         setStep(1)
     }
 
-    const handleSumbit = () => {
-        closeModal()
-    }
+    const handleSubmit = async () => {
+        const formattedUrls = Array.isArray(url) ? url.join(',') : url;
+    
+        const goalData = {
+            title,
+            description,
+            category: category === 'custom' ? customCategory : category,
+            selectedDate,
+            comment,
+            activity,
+            priority,
+            url: formattedUrls,
+        };
+
+        
+    
+        try {
+            const user = await account.get();
+            if (!user.$id) {
+                console.error('User is not authenticated');
+                return;
+            }
+    
+            if (typeof goalData.title !== 'string' || goalData.title.length > 255) {
+                throw new Error('Title must be a string with a maximum length of 255 characters');
+            }
+            if (typeof goalData.description !== 'string' || goalData.description.length > 1000) {
+                throw new Error('Description must be a string with a maximum length of 1000 characters');
+            }
+            if (!["Personal Development", "Career", "Health", "Education", "custom"].includes(goalData.category)) {
+                throw new Error('Invalid category');
+            }
+            if (typeof goalData.selectedDate !== 'string') {
+                throw new Error('Selected Date must be a valid datetime string');
+            }
+            if (goalData.comment && (typeof goalData.comment !== 'string' || goalData.comment.length > 500)) {
+                throw new Error('Comment must be a string with a maximum length of 500 characters');
+            }
+            if (goalData.activity && (typeof goalData.activity !== 'string' || goalData.activity.length > 500)) {
+                throw new Error('Activity must be a string with a maximum length of 500 characters');
+            }
+            if (!["low", "medium", "high"].includes(goalData.priority)) {
+                throw new Error('Invalid priority');
+            }
+            if (goalData.url && (typeof goalData.url !== 'string' || goalData.url.length > 3000)) {
+                throw new Error('URL must be a string with a maximum length of 3000 characters');
+            }
+            
+            console.log('Final goalData:', goalData);
+            await databases.createDocument('6657c6fd00077e8f549f', '6657c70a0018f5aebbe3', ID.unique(), goalData);
+            console.log('Goal saved successfully');
+        } catch (error) {
+            console.error('Error saving goal:', error);
+        }
+    
+        closeModal();
+    };
+    
+    
+    
+    
 
     const renderContent = () => {
         switch (activeTab) {
@@ -106,6 +182,8 @@ const GoalCardForm = () => {
                                     </label>
                                     <input
                                         type="text"
+                                        value={title}
+                                        onChange={handleTitleChange}
                                         id="goalTitle"
                                         name="goalTitle"
                                         className="w-full h-10 px-2 outline-none text-gray-300 bg-gray-800 rounded-xl"
@@ -201,8 +279,6 @@ const GoalCardForm = () => {
                             {step === 3 && (
                                 <div className="mt-4">
                                     <MilestoneForm />
-                                    {/* <h2 className="text-lg font-bold mb-2">Confirm Your Goal</h2>
-                                    <p className="text-gray-700 mb-4">Review the details of your goal and confirm to save it.</p> */}
                                     <div className="mt-4 flex justify-between">
                                         <button
                                             type="button"
@@ -219,22 +295,6 @@ const GoalCardForm = () => {
                                             Next
                                         </button>
                                     </div>
-                                    {/* <div className="mt-4 flex justify-between">
-                                        <button
-                                            type="button"
-                                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
-                                            onClick={prevStep}
-                                        >
-                                            Back
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-                                            onClick={handleSumbit}
-                                        >
-                                            Confirm
-                                        </button>
-                                    </div> */}
                                 </div>
                             )}
                             {step === 4 && (
@@ -258,6 +318,24 @@ const GoalCardForm = () => {
                                         </button>
                                     </div>
                                 </div>
+                            )}
+                            {step === 5 && (
+                                   <div className="mt-4 flex justify-between">
+                                        <button
+                                            type="button"
+                                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                                            onClick={prevStep}
+                                        >
+                                            Back
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+                                            onClick={handleSubmit}
+                                        >
+                                            Confirm
+                                        </button>
+                                    </div>
                             )}
                         </div>
                     </CSSTransition>

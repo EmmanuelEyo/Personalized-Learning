@@ -6,14 +6,17 @@ const ThreeDAdaptiveModel = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const currentMountRef = mountRef.current;
+    if (!currentMountRef) return;
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Set alpha to true for transparency
 
-    renderer.setSize(window.innerWidth * 0.73 , window.innerHeight);
+    renderer.setSize(window.innerWidth * 0.73, window.innerHeight);
     renderer.setClearColor(0x000000, 0); // Set clear color to transparent
 
-    mountRef.current?.appendChild(renderer.domElement);
+    currentMountRef.appendChild(renderer.domElement);
 
     const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
     const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true }); // Change color to blue
@@ -32,7 +35,9 @@ const ThreeDAdaptiveModel = () => {
     animate();
 
     return () => {
-      mountRef.current?.removeChild(renderer.domElement);
+      if (currentMountRef) {
+        currentMountRef.removeChild(renderer.domElement);
+      }
     };
   }, []);
 
