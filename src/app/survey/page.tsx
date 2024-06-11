@@ -1,130 +1,40 @@
 // src/app/survey/page.tsx
 'use client'
 import React, { useState } from 'react';
-import { Control, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { setUserProfile } from '@/redux/authSlice';
 import Timeline from '../components/Timeline';
 import { useRouter } from 'next/navigation';
+import PreferredTopicsStep from '../components/PreferredTopicsStep';
+import SkillLevelStep from '../components/SkillLevelStep';
+import LearningGoalsStep from '../components/LearningGoalsStep';
+import LearningMethodsStep from '../components/LearningMethodsStep';
+import TimeCommitmentStep from '../components/TimeCommitmentStep';
+import { databases } from '@/appwriteConfig';
+import { ID } from 'appwrite';
+
+const submitSurvey = async (data: any) => {
+  try{
+    const response = await databases.createDocument(
+      '6657c6fd00077e8f549f',
+      '66678220003bb4870355',
+      ID.unique(),
+      data
+    )
+    console.log('Survey submitted successfully:', response)
+  } catch(err) {
+    console.error('Error submitting survey:', err)
+  }
+}
 
 const WelcomeStep: React.FC<{ onNext: () => void }> = ({ onNext }) => (
-  <div>
-    <h2 className="text-2xl mb-4">Welcome to the Survey</h2>
-    <p>Please answer the following questions to help us personalize your experience.</p>
-    <button type="button" onClick={onNext} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">
-      Next
-    </button>
-  </div>
-);
-
-const PreferredTopicsStep: React.FC<{ register: any, onNext: () => void, onPrev: () => void }> = ({ register, onNext, onPrev }) => (
-  <div>
-    <h2 className="text-2xl mb-4">Preferred Topics</h2>
-    <div className="mb-4">
-      <label className="block text-gray-700 mb-2">Select your interests:</label>
-      {['Web Development', 'Data Science', 'Machine Learning', 'Mobile Development'].map(topic => (
-        <div key={topic}>
-          <label className="inline-flex items-center">
-            <input type="checkbox" {...register('interests')} value={topic} className="form-checkbox" />
-            <span className="ml-2">{topic}</span>
-          </label>
-        </div>
-      ))}
-    </div>
-    <div className="flex justify-between">
-      <button type="button" onClick={onPrev} className="bg-gray-500 text-white py-2 px-4 rounded">
-        Back
-      </button>
-      <button type="button" onClick={onNext} className="bg-blue-500 text-white py-2 px-4 rounded">
-        Next
-      </button>
-    </div>
-  </div>
-);
-
-const SkillLevelStep: React.FC<{ register: any, control: Control<any>, errors: any, onNext: () => void, onPrev: () => void }> = ({ register, errors, onNext, onPrev }) => (
-  <div>
-    <h2 className="text-2xl mb-4">Current Skill Level</h2>
-    <div className="mb-4">
-      <label className="block text-gray-700 mb-2">Rate your skill level:</label>
-      {['Beginner', 'Intermediate', 'Advanced'].map(level => (
-        <div key={level}>
-          <label className="inline-flex items-center">
-            <input type="radio" {...register('skillLevel', { required: true })} value={level} className="form-radio" />
-            <span className="ml-2">{level}</span>
-          </label>
-        </div>
-      ))}
-      {errors.skillLevel && <span className="text-red-500 text-sm">This field is required</span>}
-    </div>
-    <div className="flex justify-between">
-      <button type="button" onClick={onPrev} className="bg-gray-500 text-white py-2 px-4 rounded">
-        Back
-      </button>
-      <button type="button" onClick={onNext} className="bg-blue-500 text-white py-2 px-4 rounded">
-        Next
-      </button>
-    </div>
-  </div>
-);
-
-const LearningGoalsStep: React.FC<{ register: any, onNext: () => void, onPrev: () => void }> = ({ register, onNext, onPrev }) => (
-  <div>
-    <h2 className="text-2xl mb-4">Learning Goals</h2>
-    <div className="mb-4">
-      <label className="block text-gray-700 mb-2">What are your learning goals?</label>
-      <textarea {...register('learningGoals')} className="w-full p-2 border rounded"></textarea>
-    </div>
-    <div className="flex justify-between">
-      <button type="button" onClick={onPrev} className="bg-gray-500 text-white py-2 px-4 rounded">
-        Back
-      </button>
-      <button type="button" onClick={onNext} className="bg-blue-500 text-white py-2 px-4 rounded">
-        Next
-      </button>
-    </div>
-  </div>
-);
-
-const LearningMethodsStep: React.FC<{ register: any, control: Control<any>, onNext: () => void, onPrev: () => void }> = ({ register, onNext, onPrev }) => (
-  <div>
-    <h2 className="text-2xl mb-4">Preferred Learning Methods</h2>
-    <div className="mb-4">
-      <label className="block text-gray-700 mb-2">Select your preferred learning methods:</label>
-      {['Videos', 'Articles', 'Quizzes'].map(method => (
-        <div key={method}>
-          <label className="inline-flex items-center">
-            <input type="checkbox" {...register('learningMethods')} value={method} className="form-checkbox" />
-            <span className="ml-2">{method}</span>
-          </label>
-        </div>
-      ))}
-    </div>
-    <div className="flex justify-between">
-      <button type="button" onClick={onPrev} className="bg-gray-500 text-white py-2 px-4 rounded">
-        Back
-      </button>
-      <button type="button" onClick={onNext} className="bg-blue-500 text-white py-2 px-4 rounded">
-        Next
-      </button>
-    </div>
-  </div>
-);
-
-const TimeCommitmentStep: React.FC<{ register: any, control: Control<any>, errors: any, onNext: () => void, onPrev: () => void }> = ({ register, errors, onNext, onPrev }) => (
-  <div>
-    <h2 className="text-2xl mb-4">Time Commitment</h2>
-    <div className="mb-4">
-      <label className="block text-gray-700 mb-2">How many hours per week can you dedicate to learning?</label>
-      <input type="number" {...register('timeCommitment', { required: true })} className="w-full p-2 border rounded" />
-      {errors.timeCommitment && <span className="text-red-500 text-sm">This field is required</span>}
-    </div>
-    <div className="flex justify-between">
-      <button type="button" onClick={onPrev} className="bg-gray-500 text-white py-2 px-4 rounded">
-        Back
-      </button>
-      <button type="button" onClick={onNext} className="bg-blue-500 text-white py-2 px-4 rounded">
-        Next
+  <div className='flex flex-col items-center justify-center'>
+    <h2 className="text-6xl text-blue-500 text-center mb-4">Welcome to the Survey</h2>
+    <p className='text-center text-4xl'>Please answer the following questions to help us personalize your experience.</p>
+    <div className="text-center mt-10">
+      <button type="button" onClick={onNext} className="mt-4 mx-auto bg-blue-500 text-white py-4 px-4 rounded">
+        Take One minute Survey
       </button>
     </div>
   </div>
@@ -134,8 +44,8 @@ const AdditionalInfoStep: React.FC<{ register: any, onPrev: () => void, isLastSt
   <div>
     <h2 className="text-2xl mb-4">Additional Information</h2>
     <div className="mb-4">
-      <label className="block text-gray-700 mb-2">Any other preferences or information you&apos;d like to share?</label>
-      <textarea {...register('additionalInfo')} className="w-full p-2 border rounded"></textarea>
+      <label className="block text-gray-200 mb-2">Any other preferences or information you&apos;d like to share?</label>
+      <textarea {...register('additionalInfo')} className="w-full outline-none text-black p-2 border rounded"></textarea>
     </div>
     <div className="flex justify-between">
       <button type="button" onClick={onPrev} className="bg-gray-500 text-white py-2 px-4 rounded">
@@ -164,8 +74,12 @@ const MultiStepForm: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter()
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    if(data.timeCommitment) {
+      data.timeCommitment = parseInt(data.timeCommitment, 10)
+    }
     dispatch(setUserProfile(data));
+    await submitSurvey(data)
     router.push('/personalized-dashboard');
     console.log('Form data submitted:', data);
   };
@@ -177,7 +91,7 @@ const MultiStepForm: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-900">
-      <div className="p-10 bg-slate-800 rounded-xl shadow-md w-[75%] h-[40rem] mx-auto">
+      <div className="p-10 bg-gradient-to-r from-purple-700 via-blue-800 to-pink-900 rounded-xl shadow-md w-[75%] h-[40rem] mx-auto">
         <Timeline steps={steps} currentStep={currentStep} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <StepComponent

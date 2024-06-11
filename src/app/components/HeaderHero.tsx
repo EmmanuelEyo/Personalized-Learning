@@ -36,7 +36,7 @@ const HeaderHero = () => {
         {user ? (
           <>
             <h1 className='lg:text-4xl text-2xl font-normal text-gray-400'>
-              Welcome back,
+              {user.isFirstTime ? 'Welcome,' : 'Welcome back,'}
               <span className='text-blue-500 font-semibold lg:text-5xl text-3xl'> {user.name}!</span>
             </h1>
           </>

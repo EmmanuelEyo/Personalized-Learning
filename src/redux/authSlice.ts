@@ -6,24 +6,26 @@ import { ID } from "appwrite";
 // import { useEffect } from "react";
 
 interface UserProfile {
-    interests: string[];
-    skillLevel: string;
-    learningGoals: string;
-    learningMethods: string[];
-    timeCommitment: number;
+    interests?: string[];
+    skillLevel?: string;
+    learningGoals?: string[]
+    learningMethods?: string[];
+    timeCommitment?: number;
     additionalInfo?: string;
 }
 
 interface AuthState {
     userProfile: UserProfile | null;
-    user: any | null
+    user: { name: string, isFirstTime: boolean } | null
     loading: boolean
+    skills: string[]
 }
 
 const initialState: AuthState = {
     userProfile: null,
     user: null,
-    loading: true
+    loading: true,
+    skills: []
 }
 
 const authSlice = createSlice({
@@ -40,10 +42,30 @@ const authSlice = createSlice({
         setLoading(state, action: PayloadAction<boolean>) {
             state.loading = action.payload
         },
+        setSkills(state, action: PayloadAction<string[]>) {
+            state.skills = action.payload
+        },
     }
 })
 
-export const { setUser, setLoading, setUserProfile } = authSlice.actions
+export const { setUser, setLoading, setUserProfile, setSkills } = authSlice.actions
+
+export const fetchSkills = (query: string = ''): AppThunk => async (dispatch) => {
+    const skillsAndInterests = [
+        'Web Development', 'Data Science', 'Machine Learning', 'Mobile Development', 
+        'Cybersecurity', 'Cloud Computing', 'DevOps', 'Blockchain', 'UI/UX Design', 
+        'Game Development', 'Digital Marketing', 'SEO', 'Content Writing', 'Graphic Design',
+        'Photography', 'Video Editing', 'Animation', 'Artificial Intelligence', 
+        'Deep Learning', 'NLP'
+    ]
+    await new Promise(resolve => setTimeout(resolve, 500))
+    const filteredSkills = skillsAndInterests.filter(skill => skill.toLowerCase().includes(query.toLowerCase()))
+    dispatch(setSkills(filteredSkills))
+}
+
+const updateUserPreferences = async (prefs: any) => {
+    await account.updatePrefs(prefs)
+}
 
 export const handleUserLogin = (credentials: { email: string; password: string }, router: any): AppThunk => async (dispatch) => {
     try {
@@ -53,8 +75,12 @@ export const handleUserLogin = (credentials: { email: string; password: string }
         );
         console.log('LOGGED IN:', response)
         const accountDetails = await account.get();
+        const isFirstTime = accountDetails.prefs?.isFirstTime ?? true
+        if(isFirstTime) {
+            await updateUserPreferences({ isFirstTime: false })
+        }
         console.log('AccountDetails:', accountDetails)
-        dispatch(setUser(accountDetails))
+        dispatch(setUser({ ...accountDetails, isFirstTime }))
         router.push('/personalized-dashboard')
     } catch (err) {
         console.log(err);
@@ -100,8 +126,9 @@ export const handleUserRegister = (credentials: { email: string; password1: stri
         );
         await account.createEmailPasswordSession(credentials.email, credentials.password1)
         const accountDetails = await account.get();
+        await updateUserPreferences({ isFirstTime: true })
         console.log('AccountDetails:', accountDetails)
-        dispatch(setUser(accountDetails))
+        dispatch(setUser({ ...accountDetails, isFirstTime: true}))
         router.push('/survey')
     }catch(err) {
         console.error(err)

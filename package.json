@@ -33,6 +33,7 @@
     "clsx": "^2.1.1",
     "critters": "^0.0.22",
     "file-saver": "^2.0.5",
+    "focus-visible": "^5.2.0",
     "framer-motion": "^11.2.6",
     "jspdf": "^2.5.1",
     "lucide-react": "^0.378.0",

@@ -21,7 +21,7 @@ const TakeTestQuiz: React.FC = () => {
           </p>
         </div>
         <div className='flex-1 md:justify-end flex items-center'>
-          <button className="bg-blue-600 rounded py-2 px-5">Take test now</button>
+          <button onClick={() => router.push('/quiz-interface')} className="bg-blue-600 rounded py-2 px-5">Take test now</button>
         </div>
       </div>
     </div>

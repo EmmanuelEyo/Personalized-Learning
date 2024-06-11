@@ -121,7 +121,7 @@ body {
   height: 100%;
 } */
 
-/* Responsive styles for components */
+
 .chart-container {
   width: 100%;
   height: 100%;
@@ -129,7 +129,7 @@ body {
 
 @media (max-width: 767px) {
   .chart-container {
-      height: 200px; /* Adjust as needed for smaller screens */
+      height: 200px; 
   }
 
   .course-progress-overview {
@@ -184,10 +184,36 @@ body {
   }
 } */
 
+.custom-checkbox {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  border: 2px solid #4A5568;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: white;
+}
+
+.custom-checkbox:checked {
+  background-color: #4299E1;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-checkbox:checked::before {
+  content: '';
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: white;
+  border-radius: 50%;
+}
 
 
 
-/* global.css */
+
+
 input[type="checkbox"].circular-checkbox {
   appearance: none;
   width: 1.5rem;

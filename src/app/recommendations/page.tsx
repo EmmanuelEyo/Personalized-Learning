@@ -14,6 +14,7 @@ const Page = () => {
     { title: "Modifiers", duration: "29:32", progress: 16, imageUrl: "/image_three.jpg" }
   ];
 
+
   return (
     <div className="flex bg-slate-950 min-h-screen">
       <SideBar />

@@ -13,7 +13,7 @@ const Timeline: React.FC<TimelineProps> = ({ steps, currentStep }) => {
                 <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center ${currentStep >= index ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'}`}>
                     {index + 1}
                 </div>
-                <div className={`text-xs mt-2 ${currentStep >= index ? 'text-green-500' : 'text-gray-600'}`}>
+                <div className={`text-xs mt-2 ${currentStep >= index ? 'text-green-500' : 'text-gray-400'}`}>
                     {step.title}
                 </div>
                 {/* {index < steps.length - 1 && (
